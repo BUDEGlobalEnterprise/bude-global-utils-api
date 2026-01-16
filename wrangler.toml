@@ -1,0 +1,15 @@
+name = "bude-global-utils-api"
+main = "src/main.py"
+compatibility_date = "2026-01-16"
+
+# Python Workers configuration
+[python]
+# Python Workers automatically detects and installs requirements from requirements.txt
+
+# Development configuration
+[env.dev]
+workers_dev = true
+
+# Production configuration  
+[env.production]
+workers_dev = false
