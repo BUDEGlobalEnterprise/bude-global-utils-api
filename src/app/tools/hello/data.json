@@ -1,0 +1,13 @@
+{
+  "greetings": [
+    { "lang": "English", "text": "Hello, World!" },
+    { "lang": "Spanish", "text": "Hola, Mundo!" },
+    { "lang": "French", "text": "Bonjour, le monde!" },
+    { "lang": "German", "text": "Hallo, Welt!" },
+    { "lang": "Japanese", "text": "Konnichiwa, Sekai!" },
+    { "lang": "Chinese", "text": "Ni Hao, Shijie!" },
+    { "lang": "Python", "text": "print('Hello, World!')" },
+    { "lang": "C", "text": "printf(\"Hello, World!\\n\");" },
+    { "lang": "Java", "text": "System.out.println(\"Hello, World!\");" }
+  ]
+}
