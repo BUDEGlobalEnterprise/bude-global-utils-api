@@ -1,0 +1,14 @@
+{
+  "excuses": [
+    "It works on my machine.",
+    "It's a feature, not a bug.",
+    "The third-party API is down.",
+    "Must be a caching issue.",
+    "That was a weird merge conflict.",
+    "I'm waiting for the build.",
+    "The documentation was outdated.",
+    "It's a DNS propagation issue.",
+    "The wifi is spotty.",
+    "I thought you handled that case."
+  ]
+}
