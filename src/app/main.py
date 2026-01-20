@@ -1,4 +1,7 @@
+from pathlib import Path
 from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.openapi.docs import get_swagger_ui_html
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
@@ -90,7 +93,7 @@ app = FastAPI(
     version=settings.VERSION,
     description=settings.DESCRIPTION,
     openapi_tags=tags_metadata,
-    docs_url="/docs",
+    docs_url=None,
     redoc_url=None,
 )
 
@@ -137,7 +140,152 @@ app.include_router(mime_router.router, prefix="/mime", tags=["Mime"])
 app.include_router(country_router.router, prefix="/country", tags=["Country"])
 
 
-@app.get("/", tags=["Health"])
+
+@app.get("/docs", include_in_schema=False)
+async def custom_swagger_ui_html():
+    response = get_swagger_ui_html(
+        openapi_url=app.openapi_url,
+        title=app.title + " - Swagger UI",
+        oauth2_redirect_url=app.swagger_ui_oauth2_redirect_url,
+    )
+    body = response.body.decode("utf-8")
+    # Inject Vercel Speed Insights script
+    script = """
+    <script>
+      window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
+    """
+    return HTMLResponse(body.replace("</body>", script + "</body>"))
+
+
+
+
+# Icon Mapping for Home Page
+ICON_MAP = {
+    "Status": "activity",
+    "Excuse": "message-square-dashed",
+    "Decision": "git-branch",
+    "Shrug": "smile",
+    "Friday": "calendar-off",
+    "Synergy": "briefcase",
+    "Teapot": "coffee",
+    "Validate": "check-circle-2",
+    "UUID": "fingerprint",
+    "Time": "clock",
+    "Base64": "binary",
+    "Hash": "hash",
+    "Password": "key",
+    "Slug": "link",
+    "Color": "palette",
+    "Lorem": "align-left",
+    "Dadjoke": "laugh",
+    "Zen": "feather",
+    "Oblique": "lightbulb",
+    "Quote": "quote",
+    "Hello": "globe-2",
+    "Flip": "refresh-ccw",
+    "IP": "network",
+    "Headers": "list",
+    "UserAgent": "monitor",
+    "HTTP": "server",
+    "Port": "anchor",
+    "Mime": "file-code",
+    "Country": "flag",
+    "Health": "heart-pulse",
+}
+
+
+@app.get("/", tags=["Home"])
+async def home_page():
+    """
+    **Home Page**
+    Serves the HTML landing page with Speed Insights and Dynamic API Grid.
+    """
+    html_path = Path(__file__).parent / "home.html"
+    content = html_path.read_text(encoding="utf-8")
+    
+    # API Grid Generation
+    grid_html = ""
+    
+    # Endpoints that support simple GET requests without parameters
+    TESTABLE_ENDPOINTS = {
+        "Status": "/status",
+        "Excuse": "/excuse",
+        "Decision": "/decision",
+        "Shrug": "/shrug",
+        "Friday": "/friday",
+        "Synergy": "/synergy",
+        "Teapot": "/brew",
+        "UUID": "/uuid",
+        "Time": "/time",
+        "Dadjoke": "/dadjoke",
+        "Zen": "/zen",
+        "Oblique": "/oblique",
+        "Quote": "/quote",
+        "Hello": "/hello",
+        "Flip": "/flip",
+        "IP": "/ip",
+        "Headers": "/headers",
+        "UserAgent": "/useragent",
+        "HTTP": "/http", # Might need param, check defaults. Assuming defaults or just descriptive.
+        "Country": "/country", # Likely needs param, will skip if unsure or check docs.
+        "Lorem": "/lorem",
+        "Color": "/color",
+    }
+    
+    for tag in tags_metadata:
+        name = tag["name"]
+        if name == "Health": continue 
+        
+        description = tag["description"]
+        icon = ICON_MAP.get(name, "box")
+        
+        # Determine if testable
+        endpoint = TESTABLE_ENDPOINTS.get(name)
+        
+        action_html = ""
+        if endpoint:
+            # Render Quick Test Button
+            action_html = f"""
+            <div class="mt-auto pt-4 flex gap-2">
+                <button id="btn-{name}" onclick="runQuickTest('{endpoint}', '{name}')" class="inline-flex items-center justify-center rounded-md text-xs font-medium bg-primary/10 text-primary hover:bg-primary/20 px-3 py-2 transition-colors">
+                    <i data-lucide="play" class="mr-1.5 h-3 w-3"></i> Quick Test
+                </button>
+                <a href="/docs#/operations/{name}" class="inline-flex items-center justify-center rounded-md text-xs font-medium text-muted-foreground hover:text-foreground px-3 py-2 transition-colors">
+                    Docs
+                </a>
+            </div>
+            <pre id="result-{name}" class="hidden mt-3 p-3 bg-muted rounded-md text-xs font-mono overflow-auto max-h-40 whitespace-pre-wrap border border-border"></pre>
+            """
+        else:
+             # Just Docs Link
+             action_html = f"""
+             <div class="mt-auto pt-4">
+                <a href="/docs#/operations/{name}" class="inline-flex items-center justify-center rounded-md text-xs font-medium bg-secondary text-secondary-foreground hover:bg-secondary/80 px-3 py-2 transition-colors">
+                    View Documentation <i data-lucide="arrow-right" class="ml-1.5 h-3 w-3"></i>
+                </a>
+             </div>
+             """
+        
+        card = f"""
+        <div class="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:border-primary/20">
+            <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-primary/5 text-primary">
+                <i data-lucide="{icon}" class="h-5 w-5"></i>
+            </div>
+            <h3 class="text-lg font-bold text-foreground mb-2">{name}</h3>
+            <p class="text-sm text-muted-foreground mb-4 line-clamp-2">{description}</p>
+            {action_html}
+        </div>
+        """
+        grid_html += card
+        
+    # Inject Grid
+    final_html = content.replace("__API_GRID__", grid_html)
+    return HTMLResponse(content=final_html)
+
+
+@app.get("/api/health", tags=["Health"])
 # Add rate limit to specific route if needed, or rely on default
 @limiter.limit("120/minute") 
 async def health_check(request: Request):

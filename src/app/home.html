@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bude Global Utils API</title>
+    <meta name="description" content="Advanced Utility Services for the Modern Web">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        border: "hsl(214.3 31.8% 91.4%)",
+                        input: "hsl(214.3 31.8% 91.4%)",
+                        ring: "hsl(225 73% 57%)", /* Bude Blue */
+                        background: "hsl(0 0% 100%)",
+                        foreground: "hsl(222.2 47.4% 11.2%)",
+                        primary: {
+                            DEFAULT: "hsl(225 73% 57%)", /* Bude Blue */
+                            foreground: "hsl(210 40% 98%)",
+                        },
+                        secondary: {
+                            DEFAULT: "hsl(210 40% 96.1%)",
+                            foreground: "hsl(222.2 47.4% 11.2%)",
+                        },
+                        muted: {
+                            DEFAULT: "hsl(210 40% 96.1%)",
+                            foreground: "hsl(215.4 16.3% 46.9%)",
+                        },
+                        accent: {
+                            DEFAULT: "hsl(210 40% 96.1%)",
+                            foreground: "hsl(222.2 47.4% 11.2%)",
+                        },
+                        popover: {
+                            DEFAULT: "hsl(0 0% 100%)",
+                            foreground: "hsl(222.2 47.4% 11.2%)",
+                        },
+                        card: {
+                            DEFAULT: "hsl(0 0% 100%)",
+                            foreground: "hsl(222.2 47.4% 11.2%)",
+                        },
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .bg-grid-slate {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+        }
+    </style>
+
+    <!-- Vercel Speed Insights -->
+    <script>
+      window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="min-h-screen bg-background text-foreground flex flex-col antialiased">
+
+    <!-- Navbar Layout Match -->
+    <header class="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div class="container flex h-14 max-w-screen-2xl items-center px-6">
+            <div class="mr-4 hidden md:flex">
+                <a class="mr-6 flex items-center space-x-2" href="https://budeglobal.in">
+                    <img src="https://budeglobal.in/images/optimized/budeglobal_logo-168w.webp" alt="Bude Global" class="h-8 w-auto">
+                    <span class="hidden font-bold sm:inline-block">Utils API</span>
+                </a>
+                <nav class="flex items-center gap-6 text-sm">
+                    <a class="transition-colors hover:text-foreground/80 text-foreground/60" href="/docs">Docs</a>
+                    <a class="transition-colors hover:text-foreground/80 text-foreground/60" href="/api/health">Status</a>
+                    <a class="transition-colors hover:text-foreground/80 text-foreground/60" href="https://github.com/BUDEGlobalEnterprise/bude-global-utils-api">GitHub</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col justify-center relative overscroll-none">
+        <div class="absolute inset-0 z-0 bg-grid-slate/[0.04] bg-[bottom_1px_center] mask-image-linear-gradient(to_bottom,transparent,black,transparent)"></div>
+        <div class="relative z-10 w-full max-w-3xl mx-auto px-6 py-24 md:py-32 text-center">
+            <div class="inline-flex items-center rounded-lg bg-blue-50 px-3 py-1 text-sm font-medium mb-6 text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                🎉 <div class="w-[1px] h-4 bg-blue-200 mx-2"></div> <span>Version 1.0.0 is now live</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 text-slate-900">
+                Foundational Utilities for <br> <span class="text-primary">Global Scale</span>
+            </h1>
+            <p class="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
+                A high-performance, serverless utility collection empowering the Bude Global ecosystem. 
+                From data validation to complex transformations, we've got you covered.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/docs" class="inline-flex h-11 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+                    Explore Documentation
+                </a>
+                <a href="/api/health" class="inline-flex h-11 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
+                    Check System Status
+                </a>
+            </div>
+        </div>
+        
+        <!-- API Features Grid (Dynamic) -->
+        <section id="features" class="w-full max-w-7xl mx-auto px-6 py-20">
+            <h2 class="text-3xl font-bold text-center mb-12 text-slate-900">
+                Available Utilities
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                __API_GRID__
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer - Exact Replica -->
+    <footer class="bg-muted/30 border-t border-border/50">
+      <div class="max-w-7xl mx-auto px-6 py-12 md:py-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
+          <!-- Column 1: Logo & About -->
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+                <img src="https://budeglobal.in/images/optimized/budeglobal_logo-168w.webp" alt="Bude Global Enterprise Logo" class="h-10 w-auto">
+              <div>
+                <h3 class="font-bold text-foreground">Bude Global Enterprise</h3>
+                <p class="text-xs text-muted-foreground">Technology, Talent, and Trade</p>
+              </div>
+            </div>
+            <p class="text-sm text-muted-foreground leading-relaxed">
+                Connecting businesses worldwide through innovative technology solutions, expert talent acquisition, and seamless global trade facilitation.
+            </p>
+          </div>
+          
+          <!-- Column 2: Services -->
+          <div class="space-y-4">
+            <h4 class="font-semibold text-foreground text-sm tracking-wide uppercase">Services</h4>
+            <ul class="space-y-2">
+              <li><a class="text-sm text-muted-foreground hover:text-primary transition-colors" href="https://budeglobal.in/products/erpnext">ERPNext Implementation</a></li>
+              <li><a class="text-sm text-muted-foreground hover:text-primary transition-colors" href="https://budeglobal.in/products/frappe">Frappe Development</a></li>
+              <li><a class="text-sm text-muted-foreground hover:text-primary transition-colors" href="https://budeglobal.in/services/consulting">Digital Consulting</a></li>
+              <li><a class="text-sm text-muted-foreground hover:text-primary transition-colors" href="https://budeglobal.in/services/outsourcing">Talent Outsourcing</a></li>
+            </ul>
+          </div>
+          
+          <!-- Column 3: Quick Links -->
+          <div class="space-y-4">
+            <h4 class="font-semibold text-foreground text-sm tracking-wide uppercase">Quick Links</h4>
+            <ul class="space-y-2">
+              <li><a class="text-sm text-muted-foreground hover:text-primary transition-colors" href="https://budeglobal.in/marketplace">Marketplace</a></li>
+              <li><a class="text-sm text-muted-foreground hover:text-primary transition-colors" href="https://budeglobal.in/about">About Us</a></li>
+              <li><a class="text-sm text-muted-foreground hover:text-primary transition-colors" href="https://budeglobal.in/careers">Careers</a></li>
+              <li><a class="text-sm text-muted-foreground hover:text-primary transition-colors" href="https://budeglobal.in/contact">Contact</a></li>
+              <!-- Added for Utils API Context -->
+              <li><a class="text-sm text-muted-foreground hover:text-primary transition-colors" href="/docs">API Documentation</a></li>
+            </ul>
+          </div>
+          
+          <!-- Column 4: Stay Connected -->
+          <div class="space-y-4">
+            <h4 class="font-semibold text-foreground text-sm tracking-wide uppercase">Stay Connected</h4>
+             <ul class="space-y-2">
+              <li class="flex items-center gap-2 text-sm text-muted-foreground">
+                  <span>📍</span> Coimbatore, India
+              </li>
+              <li class="flex items-center gap-2 text-sm text-muted-foreground">
+                  <span>✉️</span> <a href="mailto:budeglobalerp@gmail.com" class="hover:text-primary transition-colors">budeglobalerp@gmail.com</a>
+              </li>
+              <li class="flex items-center gap-2 text-sm text-muted-foreground">
+                  <span>🔗</span> <a href="https://budeglobal.in" class="hover:text-primary transition-colors">budeglobal.in</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Bottom Bar -->
+        <div class="h-px bg-gradient-to-r from-transparent via-border to-transparent mb-8"></div>
+        <div class="flex flex-col lg:flex-row justify-between items-center gap-6">
+          <p class="text-sm text-muted-foreground">© 2026 Bude Global Enterprise. All rights reserved.</p>
+          <div class="flex flex-wrap justify-center gap-x-6 gap-y-2">
+            <a class="text-sm text-muted-foreground hover:text-primary" href="https://budeglobal.in/privacy">Privacy Policy</a>
+            <a class="text-sm text-muted-foreground hover:text-primary" href="https://budeglobal.in/terms">Terms of Service</a>
+            <a class="text-sm text-muted-foreground hover:text-primary" href="https://budeglobal.in/cookies">Cookie Policy</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      async function runQuickTest(endpoint, id) {
+        const resultDiv = document.getElementById('result-' + id);
+        const btn = document.getElementById('btn-' + id);
+        
+        // Loading state
+        const originalText = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i data-lucide="loader-2" class="h-3 w-3 animate-spin"></i> Testing...';
+        lucide.createIcons();
+
+        try {
+            const res = await fetch(endpoint);
+            const contentType = res.headers.get("content-type");
+            let output;
+            
+            if (contentType && contentType.indexOf("application/json") !== -1) {
+                const data = await res.json();
+                output = JSON.stringify(data, null, 2);
+            } else {
+                output = await res.text();
+            }
+            
+            resultDiv.classList.remove('hidden');
+            resultDiv.textContent = output;
+            // Highlight result
+            resultDiv.classList.add('bg-blue-50', 'text-blue-900', 'border-blue-100');
+            setTimeout(() => resultDiv.classList.remove('bg-blue-50', 'text-blue-900', 'border-blue-100'), 500);
+            
+        } catch (e) {
+            resultDiv.classList.remove('hidden');
+            resultDiv.textContent = 'Error: ' + e.message;
+            resultDiv.classList.add('bg-red-50', 'text-red-900');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+            lucide.createIcons();
+        }
+      }
+
+      lucide.createIcons();
+    </script>
+</body>
+</html>
